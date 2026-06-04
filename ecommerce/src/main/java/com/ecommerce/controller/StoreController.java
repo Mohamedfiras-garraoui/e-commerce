@@ -21,6 +21,14 @@ public class StoreController {
      */
     @PostMapping
     public ResponseEntity<Store> createStore(@RequestBody Store store) {
+        // Ensure any client-provided IDs are ignored to force a creation (avoid accidental updates)
+        if (store.getId() != null) {
+            store.setId(null);
+        }
+        if (store.getTheme() != null && store.getTheme().getId() != null) {
+            store.getTheme().setId(null);
+        }
+
         Store newStore = storeService.createStore(store);
         // Utilisation de CREATED (21) au lieu de OK (200) pour une création de ressource
         return new ResponseEntity<>(newStore, HttpStatus.CREATED);

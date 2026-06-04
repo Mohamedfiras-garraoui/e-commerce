@@ -6,9 +6,11 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
-    
-    // Indispensable plus tard pour la connexion (Spring Security) : 
-    // Permet de vérifier si l'email existe et de récupérer l'utilisateur avec son mot de passe
+public interface UserRepository extends JpaRepository<User, Integer> {
+
+    // Pour trouver un utilisateur par son email lors du Login
     Optional<User> findByEmail(String email);
+
+    // Pour vérifier si l'email existe déjà lors du Signup (C'est ce qui manque !)
+    Boolean existsByEmail(String email);
 }

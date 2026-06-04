@@ -1,7 +1,21 @@
 package com.ecommerce.entity;
 
-public enum Role {
-    ADMIN,   // Super admin de toute la plateforme SaaS
-    SELLER,  // Le propriétaire d'une boutique spécifique
-    CUSTOMER // Le client qui achète sur une boutique
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity // <-- C'est cette annotation cruciale qui manquait ou posait problème !
+@Table(name = "roles")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Role {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50, nullable = false, unique = true)
+    private ERole name;
 }
