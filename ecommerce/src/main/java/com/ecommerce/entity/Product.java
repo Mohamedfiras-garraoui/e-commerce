@@ -3,6 +3,9 @@ package com.ecommerce.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "products")
@@ -25,19 +28,26 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
-    @Column(nullable = false) // Ajouté : correspond à la nouvelle colonne SQL
+    @Column(nullable = false)
     private Integer stock;
 
-    @Column(name = "image") // Modifié : imageUrl devient image pour correspondre à votre BDD
+
+    @Column(name = "image", columnDefinition = "TEXT")
     private String image;
 
     @ManyToOne
     @JoinColumn(name = "store_id", nullable = false)
+    @JsonIgnore
     private Store store;
 
-    // Ajouté : gère la colonne category_id présente dans votre table MySQL
-    
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "store", "products"})
     private Category category;
+    
+    // Helper method to get categoryId for JSON
+    @JsonProperty("categoryId")
+    public Long getCategoryId() {
+        return category != null ? category.getId() : null;
+    }
 }

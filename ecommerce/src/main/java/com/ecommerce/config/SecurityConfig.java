@@ -79,12 +79,7 @@ public class SecurityConfig {
 
                 // 4. Protection des points d'accès
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/auth/signup", "/api/auth/login").permitAll()
-
-                        // Permet l'accès libre aux endpoints de création de compte et de login
-                        .requestMatchers("/api/auth/**").permitAll()
-
-                        // Permet l'accès complet au reste de l'API /api/ pour vos tests initiaux
+                        // Allow all API endpoints for development/testing
                         .requestMatchers("/api/**").permitAll()
 
                         // Permet l'accès complet aux interfaces Swagger

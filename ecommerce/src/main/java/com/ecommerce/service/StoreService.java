@@ -7,6 +7,7 @@ import com.ecommerce.repository.ThemeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class StoreService {
@@ -41,5 +42,34 @@ public class StoreService {
     public Store getStoreById(Long id) {
         return storeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Boutique introuvable"));
+    }
+    
+    // Récupérer les boutiques d'un utilisateur
+    public List<Store> getStoresByOwnerId(Integer ownerId) {
+        return storeRepository.findByOwnerId(ownerId);
+    }
+    
+    // Récupérer toutes les boutiques
+    public List<Store> getAllStores() {
+        return storeRepository.findAll();
+    }
+    
+    // Mettre à jour une boutique
+    public Store updateStore(Long id, Store storeDetails) {
+        Store store = getStoreById(id);
+        store.setName(storeDetails.getName());
+        store.setDomain(storeDetails.getDomain());
+        store.setDescription(storeDetails.getDescription());
+        store.setEmail(storeDetails.getEmail());
+        store.setPhone(storeDetails.getPhone());
+        store.setLogo(storeDetails.getLogo());
+        store.setStatus(storeDetails.getStatus());
+        return storeRepository.save(store);
+    }
+
+    // Supprimer une boutique
+    public void deleteStore(Long id) {
+        Store store = getStoreById(id);
+        storeRepository.delete(store);
     }
 }

@@ -1,0 +1,164 @@
+<div class="product-management">
+  <header class="page-header">
+    <h1>Gestion des Produits</h1>
+    <p>Ajoutez et gérez vos produits pour vos boutiques</p>
+  </header>
+
+  <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+
+  <section class="create-product-card">
+    <h2>{{ isEditing ? "Modifier le Produit" : "Ajouter un Produit" }}</h2>
+    <form (ngSubmit)="saveProduct()" class="create-form">
+      <div class="form-group">
+        <label for="productStore">Boutique</label>
+        <select
+          id="productStore"
+          [(ngModel)]="productForm.storeId"
+          name="storeId"
+          (change)="onStoreChange()"
+          required
+        >
+          <option *ngFor="let store of stores" [ngValue]="store.id">
+            {{ store.name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="productName">Nom du produit</label>
+        <input
+          id="productName"
+          type="text"
+          [(ngModel)]="productForm.name"
+          name="name"
+          placeholder="Ex: T-shirt Premium"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="productDescription">Description</label>
+        <input
+          id="productDescription"
+          type="text"
+          [(ngModel)]="productForm.description"
+          name="description"
+          placeholder="Ex: T-shirt de haute qualité en coton"
+        />
+      </div>
+      <div class="form-group">
+        <label for="productCategory">Catégorie</label>
+        <select
+          id="productCategory"
+          [(ngModel)]="productForm.categoryId"
+          name="categoryId"
+        >
+          <option [ngValue]="null">Général</option>
+          <option *ngFor="let category of categories" [ngValue]="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="productPrice">Prix (TND)</label>
+        <input
+          id="productPrice"
+          type="number"
+          [(ngModel)]="productForm.price"
+          name="price"
+          placeholder="0.00"
+          step="0.01"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="productStock">Stock Initial</label>
+        <input
+          id="productStock"
+          type="number"
+          [(ngModel)]="productForm.stock"
+          name="stock"
+          placeholder="0"
+          min="0"
+        />
+      </div>
+      <div class="form-group">
+        <label for="productImage">Image URL</label>
+        <div class="image-input-wrapper">
+          <input
+            id="productImage"
+            type="text"
+            [(ngModel)]="productForm.image"
+            name="image"
+            placeholder="https://example.com/image.jpg"
+          />
+          <button
+            type="button"
+            (click)="openImagePicker()"
+            class="image-picker-btn"
+            title="Choisir une image"
+          >
+            🖼️
+          </button>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success">
+          <span class="icon">💾</span>
+          {{ isEditing ? "Modifier le produit" : "Enregistrer le produit" }}
+        </button>
+        <button
+          *ngIf="isEditing"
+          type="button"
+          (click)="resetForm()"
+          class="btn btn-secondary"
+        >
+          Annuler
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="products-grid">
+    <h2>Catalogue des Produits</h2>
+    <div *ngIf="products.length === 0" class="empty-state">
+      <div class="empty-icon">📦</div>
+      <h4>Aucun produit</h4>
+      <p>Ajoutez votre premier produit pour commencer</p>
+    </div>
+    <div *ngFor="let p of products" class="product-card">
+      <div class="product-image" *ngIf="p.image">
+        <img [src]="p.image" [alt]="p.name" />
+      </div>
+      <div class="product-image" *ngIf="!p.image">
+        <div class="placeholder-image">📷</div>
+      </div>
+      <div class="product-details">
+        <h3>{{ p.name }}</h3>
+        <p class="product-description" *ngIf="p.description">
+          {{ p.description }}
+        </p>
+        <div class="product-meta">
+          <span class="product-category">{{
+            getCategoryName(p.categoryId)
+          }}</span>
+          <span class="product-price">{{ p.price }} TND</span>
+        </div>
+        <div class="product-stock">
+          <span [ngClass]="{ 'low-stock': p.stock < 10 }"
+            >Stock: {{ p.stock }} unités</span
+          >
+        </div>
+        <div class="card-actions">
+          <button (click)="editProduct(p)" class="btn btn-primary btn-small">
+            <span class="icon">✏️</span> Modifier
+          </button>
+          <button
+            (click)="deleteProduct(p.id)"
+            class="btn btn-danger btn-small"
+          >
+            <span class="icon">🗑️</span> Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

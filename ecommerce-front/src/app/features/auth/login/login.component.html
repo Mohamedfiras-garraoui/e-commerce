@@ -1,0 +1,104 @@
+<div
+  class="login-container"
+  style="
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 30px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-family: sans-serif;
+  "
+>
+  <h2 style="text-align: center; color: #333; margin-bottom: 20px">
+    Connexion E-Commerce
+  </h2>
+
+  <div
+    *ngIf="errorMessage"
+    style="
+      color: #721c24;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    "
+  >
+    {{ errorMessage }}
+  </div>
+
+  <form (ngSubmit)="onSubmit()">
+    <div style="margin-bottom: 15px">
+      <label
+        style="
+          display: block;
+          font-weight: bold;
+          margin-bottom: 5px;
+          color: #555;
+        "
+        >Adresse Email :</label
+      >
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="credentials.email"
+        required
+        style="
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+        "
+      />
+    </div>
+
+    <div style="margin-bottom: 20px">
+      <label
+        style="
+          display: block;
+          font-weight: bold;
+          margin-bottom: 5px;
+          color: #555;
+        "
+        >Mot de passe :</label
+      >
+      <input
+        type="password"
+        name="password"
+        [(ngModel)]="credentials.password"
+        required
+        style="
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-sizing: border-box;
+        "
+      />
+    </div>
+
+    <button
+      type="submit"
+      style="
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.2s;
+      "
+    >
+      Se connecter
+    </button>
+  </form>
+  <p style="text-align: center; margin-top: 12px; font-size: 14px; color: #555">
+    Pas encore de compte? <a routerLink="/signup">S'inscrire</a>
+  </p>
+</div>

@@ -1,0 +1,86 @@
+<div class="store-detail-container">
+  <div class="store-header">
+    <button class="back-btn" (click)="goBack()">← Retour aux boutiques</button>
+    <button class="cart-btn" (click)="goToCart()">🛒 Voir le panier</button>
+  </div>
+
+  <div *ngIf="store" class="store-info">
+    <div class="store-logo-section">
+      <img
+        *ngIf="store.logo"
+        [src]="store.logo"
+        alt="{{ store.name }}"
+        class="store-logo-large"
+        (error)="store.logo = null"
+      />
+      <div *ngIf="!store.logo" class="store-logo-placeholder-large">
+        {{ store.name?.charAt(0)?.toUpperCase() }}
+      </div>
+    </div>
+    <div class="store-info-text">
+      <h1>{{ store.name }}</h1>
+      <p *ngIf="store.description">{{ store.description }}</p>
+      <div class="store-contact">
+        <span *ngIf="store.email">📧 {{ store.email }}</span>
+        <span *ngIf="store.phone">📞 {{ store.phone }}</span>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="products-title">Nos Produits</h2>
+
+  <div *ngIf="loading" class="loading">Chargement des produits...</div>
+
+  <div *ngIf="!loading && products.length === 0" class="empty">
+    Aucun produit disponible dans cette boutique pour le moment.
+  </div>
+
+  <div *ngIf="!loading && products.length > 0" class="products-grid">
+    <div *ngFor="let product of products" class="product-card">
+      <div class="product-image">
+        <img
+          *ngIf="product.image"
+          [src]="product.image"
+          alt="{{ product.name }}"
+          (error)="product.image = null"
+        />
+        <div *ngIf="!product.image" class="product-image-placeholder">📦</div>
+      </div>
+      <div class="product-body">
+        <h3>{{ product.name }}</h3>
+        <p *ngIf="product.description" class="product-description">
+          {{ product.description }}
+        </p>
+        <div class="product-meta">
+          <span class="price">{{ product.price | currency: "TND" }}</span>
+          <span class="stock" [class.low-stock]="product.stock < 10">
+            Stock: {{ product.stock }}
+          </span>
+        </div>
+        <div class="add-to-cart-section">
+          <div class="quantity-control">
+            <button (click)="decreaseProductQuantity(product.id)">-</button>
+            <input
+              type="number"
+              [(ngModel)]="quantities[product.id]"
+              min="1"
+              [max]="product.stock"
+            />
+            <button
+              (click)="increaseProductQuantity(product.id, product.stock)"
+            >
+              +
+            </button>
+          </div>
+          <button
+            class="add-to-cart-btn"
+            (click)="addToCart(product.id)"
+            [disabled]="addingToCart[product.id] || product.stock === 0"
+          >
+            {{ addingToCart[product.id] ? "Ajout..." : "Ajouter au panier" }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

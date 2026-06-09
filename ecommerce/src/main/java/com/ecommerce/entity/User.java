@@ -13,6 +13,10 @@ import java.util.Set;
 @AllArgsConstructor
 public class User {
 
+    public enum UserStatus {
+        ACTIVE, INACTIVE, PENDING
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; // Modifié en Integer pour correspondre au INT de votre phpMyAdmin !
@@ -26,6 +30,9 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status = UserStatus.ACTIVE; // Par défaut ACTIVE
 
     // MODIFICATION : Remplacement de l'ancien champ unique par la relation Many-To-Many
     @ManyToMany(fetch = FetchType.LAZY)

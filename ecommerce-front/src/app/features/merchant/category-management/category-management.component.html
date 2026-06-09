@@ -1,0 +1,55 @@
+<div class="category-management">
+  <header class="page-header">
+    <h1>Gestion des Catégories</h1>
+    <p>Créez et gérez les catégories pour vos produits</p>
+  </header>
+
+  <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+
+  <section class="create-category-card">
+    <h2>Créer une nouvelle catégorie</h2>
+    <form (ngSubmit)="createCategory()" class="create-form">
+      <div class="form-group">
+        <label for="categoryStore">Boutique</label>
+        <select
+          id="categoryStore"
+          [(ngModel)]="selectedStoreId"
+          name="storeId"
+          (change)="onStoreChange()"
+          required
+        >
+          <option *ngFor="let store of stores" [value]="store.id">{{ store.name }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="categoryName">Nom de la catégorie</label>
+        <input
+          id="categoryName"
+          type="text"
+          [(ngModel)]="newCategory.name"
+          name="name"
+          placeholder="Ex: Vêtements"
+          required
+        />
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          <span class="icon">➕</span> Créer la catégorie
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="categories-grid">
+    <h2>Catégories existantes</h2>
+    <div *ngIf="categories.length === 0" class="empty-state">
+      <div class="empty-icon">📂</div>
+      <h4>Aucune catégorie</h4>
+      <p>Créez votre première catégorie pour commencer</p>
+    </div>
+    <div *ngFor="let category of categories" class="category-card">
+      <div class="category-icon">🏷️</div>
+      <h3>{{ category.name }}</h3>
+    </div>
+  </section>
+</div>

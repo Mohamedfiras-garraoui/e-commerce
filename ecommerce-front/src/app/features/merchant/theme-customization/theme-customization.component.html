@@ -1,0 +1,85 @@
+<div class="merchant-page">
+  <header class="page-header">
+    <div>
+      <p class="page-kicker">Merchant</p>
+      <h2>Identité visuelle & thème</h2>
+    </div>
+    <p class="page-subtitle">
+      Le thème est chargé et enregistré depuis l'API de la boutique
+      sélectionnée.
+    </p>
+  </header>
+
+  <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+
+  <div class="merchant-grid">
+    <section class="card">
+      <h3>Personnaliser la boutique</h3>
+
+      <label>
+        Boutique
+        <select
+          [(ngModel)]="selectedStoreId"
+          name="storeId"
+          (change)="onStoreChange()"
+          required
+        >
+          <option *ngFor="let store of stores" [value]="store.id">
+            {{ store.name }}
+          </option>
+        </select>
+      </label>
+
+      <label>
+        Nom affiché
+        <input type="text" [(ngModel)]="theme.storeName" />
+      </label>
+
+      <label>
+        Couleur principale
+        <input type="color" [(ngModel)]="theme.primaryColor" />
+      </label>
+
+      <label>
+        Couleur secondaire
+        <input type="color" [(ngModel)]="theme.secondaryColor" />
+      </label>
+
+      <label>
+        Fond
+        <input type="color" [(ngModel)]="theme.backgroundColor" />
+      </label>
+
+      <label>
+        Police
+        <select [(ngModel)]="theme.fontFamily">
+          <option value="sans-serif">Sans serif</option>
+          <option value="serif">Serif</option>
+          <option value="monospace">Monospace</option>
+        </select>
+      </label>
+
+      <button type="button" (click)="saveTheme()">Enregistrer le thème</button>
+    </section>
+
+    <section class="card preview-card">
+      <h3>Aperçu</h3>
+      <div
+        class="preview"
+        [style.font-family]="theme.fontFamily"
+        [style.background]="theme.backgroundColor"
+      >
+        <div class="preview-header" [style.background]="theme.primaryColor">
+          <strong>{{ theme.storeName }}</strong>
+        </div>
+        <div
+          class="preview-body"
+          [style.background]="theme.secondaryColor + '14'"
+        >
+          <p>Les couleurs et la typographie viennent de l'API.</p>
+          <button [style.background]="theme.primaryColor">Bouton</button>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

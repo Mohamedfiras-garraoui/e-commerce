@@ -46,4 +46,28 @@ public class ProductService {
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElse(null);
     }
+    
+    /**
+     * 📝 Mettre à jour un produit
+     */
+    public Product updateProduct(Long id, Product productDetails) {
+        Product product = getProductById(id);
+        if (product == null) {
+            throw new RuntimeException("Produit non trouvé");
+        }
+        product.setName(productDetails.getName());
+        product.setDescription(productDetails.getDescription());
+        product.setPrice(productDetails.getPrice());
+        product.setStock(productDetails.getStock());
+        product.setImage(productDetails.getImage());
+        product.setCategory(productDetails.getCategory());
+        return productRepository.save(product);
+    }
+    
+    /**
+     * 🗑️ Supprimer un produit
+     */
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+    }
 }

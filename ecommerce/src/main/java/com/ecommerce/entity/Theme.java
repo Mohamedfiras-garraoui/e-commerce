@@ -15,6 +15,9 @@ public class Theme {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "store_name")
+    private String storeName;
+
     @Column(name = "primary_color") // Optionnel : pour être explicite sur le nom en BDD
     private String primaryColor;
 

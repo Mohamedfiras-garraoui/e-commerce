@@ -1,0 +1,81 @@
+.merchant-shell {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  min-height: 100vh;
+  background: #f3f5f9;
+}
+
+.merchant-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 28px 22px;
+  background: linear-gradient(180deg, #101828 0%, #182033 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.brand-block h1 {
+  margin: 6px 0 8px;
+  font-size: 26px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 11px;
+  color: #8ab4ff;
+}
+
+.brand-block p {
+  margin: 0;
+  color: #c3cad9;
+}
+
+.merchant-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.merchant-nav a {
+  color: #d0d7e2;
+  text-decoration: none;
+  padding: 12px 14px;
+  border-radius: 12px;
+  transition: 0.2s ease;
+}
+
+.merchant-nav a:hover,
+.merchant-nav a.active {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.logout-btn {
+  margin-top: auto;
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #ff5a65;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.merchant-content {
+  min-width: 0;
+}
+
+@media (max-width: 980px) {
+  .merchant-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .merchant-sidebar {
+    position: relative;
+    height: auto;
+  }
+}

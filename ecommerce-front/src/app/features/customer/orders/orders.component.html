@@ -1,0 +1,62 @@
+<div class="orders-container">
+  <div class="orders-header">
+    <button class="back-btn" (click)="goToStores()">
+      ← Retour aux boutiques
+    </button>
+    <button class="cart-btn" (click)="goToCart()">🛒 Mon panier</button>
+  </div>
+
+  <h1>Mes Commandes</h1>
+
+  <div *ngIf="loading" class="loading">Chargement des commandes...</div>
+
+  <div *ngIf="!loading && orders.length === 0" class="empty-orders">
+    <div class="empty-icon">📦</div>
+    <h2>Vous n'avez pas encore passé de commande</h2>
+    <p>Découvrez nos boutiques et faites votre premier achat !</p>
+    <button class="shop-now-btn" (click)="goToStores()">
+      Découvrir les boutiques
+    </button>
+  </div>
+
+  <div *ngIf="!loading && orders.length > 0" class="orders-list">
+    <div *ngFor="let order of orders" class="order-card">
+      <div class="order-header">
+        <div class="order-info">
+          <h3>Commande {{ order.orderReference }}</h3>
+          <p class="order-date">
+            {{ order.orderDate | date: "dd/MM/yyyy à HH:mm" }}
+          </p>
+        </div>
+        <div
+          class="order-status"
+          [style.backgroundColor]="getStatusColor(order.status) + '20'"
+          [style.color]="getStatusColor(order.status)"
+        >
+          {{ getStatusText(order.status) }}
+        </div>
+      </div>
+
+      <div class="order-store">
+        <strong>Boutique:</strong> {{ order.store?.name }}
+      </div>
+
+      <div class="order-items">
+        <div *ngFor="let item of order.items" class="order-item">
+          <span class="item-name">{{ item.product?.name }}</span>
+          <span class="item-quantity">x{{ item.quantity }}</span>
+          <span class="item-price">{{
+            item.product?.price * item.quantity | currency: "TND"
+          }}</span>
+        </div>
+      </div>
+
+      <div class="order-total">
+        <span>Total:</span>
+        <span class="total-price">{{
+          order.totalPrice | currency: "TND"
+        }}</span>
+      </div>
+    </div>
+  </div>
+</div>

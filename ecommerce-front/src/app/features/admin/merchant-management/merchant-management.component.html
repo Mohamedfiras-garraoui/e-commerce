@@ -1,0 +1,66 @@
+<div class="admin-container" style="padding: 30px; font-family: sans-serif; background-color: #f4f6f9; min-height: 100vh;">
+  <h2 style="color: #2c3e50; margin-bottom: 25px;">Espace Super Admin — Gestion des Marchands</h2>
+
+  <div *ngIf="errorMessage" style="color: #721c24; background: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; border-radius: 4px; margin-bottom: 20px;">
+    {{ errorMessage }}
+  </div>
+
+  <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 30px;">
+    <h3 style="margin-top: 0; color: #34495e;">Créer un nouveau compte Marchand</h3>
+    <form (ngSubmit)="addMerchant()" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; align-items: flex-end;">
+      <div>
+        <label style="display:block; margin-bottom: 5px; font-weight: bold;">Prénom</label>
+        <input type="text" [(ngModel)]="newMerchant.firstname" name="firstname" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+      </div>
+      <div>
+        <label style="display:block; margin-bottom: 5px; font-weight: bold;">Nom</label>
+        <input type="text" [(ngModel)]="newMerchant.lastname" name="lastname" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+      </div>
+      <div>
+        <label style="display:block; margin-bottom: 5px; font-weight: bold;">Email</label>
+        <input type="email" [(ngModel)]="newMerchant.email" name="email" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+      </div>
+      <div>
+        <label style="display:block; margin-bottom: 5px; font-weight: bold;">Mot de passe</label>
+        <input type="password" [(ngModel)]="newMerchant.password" name="password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+      </div>
+      <button type="submit" style="background: #27ae60; color: white; border: none; padding: 12px; border-radius: 4px; font-weight: bold; cursor: pointer;">
+        Créer le Marchand
+      </button>
+    </form>
+  </div>
+
+  <div style="background: white; padding: 25px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+    <h3 style="margin-top: 0; color: #34495e;">Marchands Enregistrés</h3>
+    <table style="width: 100%; border-collapse: collapse; text-align: left; margin-top: 15px;">
+      <thead>
+        <tr style="background-color: #34495e; color: white;">
+          <th style="padding: 12px; border: 1px solid #ddd;">ID</th>
+          <th style="padding: 12px; border: 1px solid #ddd;">Nom Complet</th>
+          <th style="padding: 12px; border: 1px solid #ddd;">Email</th>
+          <th style="padding: 12px; border: 1px solid #ddd;">Statut</th>
+          <th style="padding: 12px; border: 1px solid #ddd;">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let m of merchants" style="border-bottom: 1px solid #ddd;">
+          <td style="padding: 12px;">{{ m.id }}</td>
+          <td style="padding: 12px;">{{ m.firstname }} {{ m.lastname }}</td>
+          <td style="padding: 12px;">{{ m.email }}</td>
+          <td style="padding: 12px;">
+            <span [style.background]="m.status === 'ACTIVE' ? '#e2fbe8' : '#fce8e6'"
+                  [style.color]="m.status === 'ACTIVE' ? '#1e7e34' : '#bd2130'"
+                  style="padding: 5px 10px; border-radius: 12px; font-weight: bold; font-size: 12px;">
+              {{ m.status }}
+            </span>
+          </td>
+          <td style="padding: 12px;">
+            <button (click)="toggleStatus(m)" style="background: #3498db; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer;">
+              Modifier Statut
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

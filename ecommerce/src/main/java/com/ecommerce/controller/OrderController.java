@@ -42,4 +42,14 @@ public class OrderController {
         List<Order> orders = orderService.getOrdersByStore(storeId);
         return ResponseEntity.ok(orders);
     }
+
+    @GetMapping("/user")
+    public ResponseEntity<List<Order>> getUserOrders() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
+        
+        List<Order> orders = orderService.getOrdersByUser(currentUser);
+        return ResponseEntity.ok(orders);
+    }
 }

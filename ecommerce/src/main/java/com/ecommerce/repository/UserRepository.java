@@ -1,9 +1,11 @@
 package com.ecommerce.repository;
 
 import com.ecommerce.entity.User;
+import com.ecommerce.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -13,4 +15,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     // Pour vérifier si l'email existe déjà lors du Signup (C'est ce qui manque !)
     Boolean existsByEmail(String email);
+    
+    // Pour trouver tous les utilisateurs avec un rôle spécifique
+    List<User> findByRoles_Name(com.ecommerce.entity.ERole roleName);
 }

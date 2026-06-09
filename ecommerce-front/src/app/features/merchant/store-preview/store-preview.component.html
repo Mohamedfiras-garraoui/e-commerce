@@ -1,0 +1,74 @@
+<div class="preview-wrapper" [ngStyle]="{
+  '--primary-color': theme?.primaryColor || '#3498db',
+  '--secondary-color': theme?.secondaryColor || '#2c3e50',
+  '--accent-color': theme?.accentColor || '#e74c3c'
+}">
+  <div class="preview-header">
+    <h1>📱 Aperçu de la boutique</h1>
+    <div class="store-selector">
+      <label for="previewStore">Sélectionner une boutique:</label>
+      <select
+        id="previewStore"
+        [value]="selectedStore?.id"
+        (change)="selectStore($any($event.target).value)"
+      >
+        <option *ngFor="let store of stores" [value]="store.id">{{ store.name }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div *ngIf="selectedStore" class="store-preview">
+    <header class="preview-store-header">
+      <h1>{{ selectedStore.name }}</h1>
+    </header>
+
+    <nav class="preview-nav" *ngIf="categories.length > 0">
+      <button
+        [ngClass]="{ active: selectedCategoryId === null }"
+        (click)="selectedCategoryId = null"
+      >
+        Tous
+      </button>
+      <button
+        *ngFor="let category of categories"
+        [ngClass]="{ active: selectedCategoryId === category.id }"
+        (click)="selectedCategoryId = category.id"
+      >
+        {{ category.name }}
+      </button>
+    </nav>
+
+    <main class="preview-content">
+      <h2 class="section-title">Nos produits</h2>
+
+      <div *ngIf="filteredProducts.length === 0" class="preview-empty-state">
+        <div class="empty-icon">📦</div>
+        <h4>Aucun produit disponible</h4>
+        <p>Ajoutez des produits pour commencer</p>
+      </div>
+
+      <div class="preview-products-grid" *ngIf="filteredProducts.length > 0">
+        <div *ngFor="let product of filteredProducts" class="preview-product-card">
+          <div class="preview-product-image" *ngIf="product.image">
+            <img [src]="product.image" [alt]="product.name" />
+          </div>
+          <div class="preview-product-image" *ngIf="!product.image">
+            <div class="placeholder-image">📷</div>
+          </div>
+          <div class="preview-product-details">
+            <h3>{{ product.name }}</h3>
+            <p *ngIf="product.description">{{ product.description }}</p>
+            <span class="preview-category">{{ getCategoryName(product.categoryId) }}</span>
+            <span class="preview-price">{{ product.price }} TND</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div *ngIf="!selectedStore" class="preview-no-store">
+    <div class="empty-icon">🏪</div>
+    <h4>Aucune boutique disponible</h4>
+    <p>Créez une boutique pour commencer</p>
+  </div>
+</div>

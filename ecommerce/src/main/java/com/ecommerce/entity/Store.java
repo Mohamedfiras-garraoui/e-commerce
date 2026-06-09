@@ -2,6 +2,7 @@ package com.ecommerce.entity;
 
 import jakarta.persistence.*;
 import lombok.*; // <-- Ne pas oublier d'importer Lombok
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "stores")
@@ -17,6 +18,10 @@ public class Store {
 
     private String name;
 
+    private String domain; // Ajouté pour correspondre au frontend
+
+    private String description; // Ajouté pour correspondre au frontend
+
     private String email;
 
     private String phone;
@@ -25,8 +30,15 @@ public class Store {
 
     private String status;
 
+    // 🔗 Lien avec le marchand propriétaire
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore // Ignore this field in JSON to prevent issues
+    private User owner;
+
     // 🔗 LA LIAISON AVEC LE THÈME (INDISPENSABLE POUR VOTRE PROJET)
     // Cela permet de dire à Spring que la boutique est liée à son style personnalisé
     @OneToOne(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore // Ignore this field in JSON to prevent issues
     private Theme theme;
 }

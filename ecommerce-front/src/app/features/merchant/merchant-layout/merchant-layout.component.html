@@ -1,0 +1,31 @@
+<div class="merchant-shell">
+  <aside class="merchant-sidebar">
+    <div class="brand-block">
+      <div class="eyebrow">Espace marchand</div>
+      <h1>Gestion boutique</h1>
+      <p>{{ authService.getCurrentUser().firstname || "Marchand" }}</p>
+    </div>
+
+    <nav class="merchant-nav">
+      <a routerLink="/merchant/stores" routerLinkActive="active">Boutiques</a>
+      <a routerLink="/merchant/products" routerLinkActive="active">Produits</a>
+      <a routerLink="/merchant/categories" routerLinkActive="active">Catégories</a>
+      <a routerLink="/merchant/theme" routerLinkActive="active">Thème</a>
+      <a routerLink="/merchant/preview" routerLinkActive="active">Aperçu boutique</a>
+      <a routerLink="/merchant/profile" routerLinkActive="active"
+        >Informations personnelles</a
+      >
+      <a routerLink="/merchant/dashboard" routerLinkActive="active"
+        >Tableau de bord</a
+      >
+    </nav>
+
+    <button type="button" class="logout-btn" (click)="logout()">
+      Déconnexion
+    </button>
+  </aside>
+
+  <main class="merchant-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

@@ -1,0 +1,22 @@
+<div class="customer-layout">
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <span class="brand-text">🛍️ E-Commerce</span>
+      </div>
+      <div class="nav-links">
+        <a routerLink="/customer/stores" routerLinkActive="active">Boutiques</a>
+        <a routerLink="/customer/cart" routerLinkActive="active">Panier</a>
+        <a routerLink="/customer/orders" routerLinkActive="active">Commandes</a>
+      </div>
+      <div class="nav-user">
+        <span class="user-name">{{ getCurrentUser().firstname }} {{ getCurrentUser().lastname }}</span>
+        <button class="logout-btn" (click)="logout()">Déconnexion</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

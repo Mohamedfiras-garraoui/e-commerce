@@ -1,0 +1,45 @@
+<div class="stores-container">
+  <h1>Nos Boutiques</h1>
+
+  <div *ngIf="loading" class="loading">Chargement des boutiques...</div>
+
+  <div *ngIf="!loading && stores.length === 0" class="empty">
+    Aucune boutique disponible pour le moment.
+  </div>
+
+  <div *ngIf="!loading && stores.length > 0" class="stores-grid">
+    <div
+      *ngFor="let store of stores"
+      class="store-card"
+      (click)="viewStore(store.id)"
+    >
+      <div class="store-header">
+        <img
+          *ngIf="store.logo"
+          [src]="store.logo"
+          alt="{{ store.name }}"
+          class="store-logo"
+          (error)="store.logo = null"
+        />
+        <div *ngIf="!store.logo" class="store-logo-placeholder">
+          {{ store.name?.charAt(0)?.toUpperCase() }}
+        </div>
+      </div>
+      <div class="store-body">
+        <h3>{{ store.name }}</h3>
+        <p *ngIf="store.description" class="store-description">
+          {{ store.description }}
+        </p>
+        <div class="store-details">
+          <span *ngIf="store.email" class="detail-item"
+            >📧 {{ store.email }}</span
+          >
+          <span *ngIf="store.phone" class="detail-item"
+            >📞 {{ store.phone }}</span
+          >
+        </div>
+        <button class="view-store-btn">Voir la boutique</button>
+      </div>
+    </div>
+  </div>
+</div>

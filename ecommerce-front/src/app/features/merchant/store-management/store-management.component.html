@@ -1,0 +1,103 @@
+<div class="store-management">
+  <header class="page-header">
+    <h1>Gestion des Boutiques</h1>
+    <p>Gérez vos boutiques et personnalisez-les selon vos besoins</p>
+  </header>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <section class="create-store-card">
+    <h2>
+      {{
+        editingStore ? "Modifier la Boutique" : "Créer une nouvelle Boutique"
+      }}
+    </h2>
+    <form (ngSubmit)="createStore()" class="create-form">
+      <div class="form-group">
+        <label for="storeName">Nom de la boutique</label>
+        <input
+          id="storeName"
+          type="text"
+          [(ngModel)]="newStore.name"
+          name="name"
+          required
+          placeholder="Ex: Ma Boutique Chic"
+        />
+      </div>
+      <div class="form-group">
+        <label for="storeDomain">Sous-domaine / Identifiant</label>
+        <input
+          id="storeDomain"
+          type="text"
+          [(ngModel)]="newStore.domain"
+          name="domain"
+          placeholder="Ex: ma-boutique"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="storeDescription">Description</label>
+        <input
+          id="storeDescription"
+          type="text"
+          [(ngModel)]="newStore.description"
+          name="description"
+          placeholder="Courte description de votre boutique"
+        />
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          <span class="icon">{{ editingStore ? "💾" : "✨" }}</span>
+          {{ editingStore ? "Modifier la Boutique" : "Créer la Boutique" }}
+        </button>
+        <button
+          *ngIf="editingStore"
+          type="button"
+          (click)="resetForm()"
+          class="btn btn-secondary"
+        >
+          Annuler
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <section class="stores-grid">
+    <div *ngFor="let store of stores" class="store-card">
+      <div class="store-header">
+        <h3>{{ store.name }}</h3>
+        <span
+          class="store-status"
+          [ngClass]="store.status === 'ACTIVE' ? 'active' : 'inactive'"
+        >
+          {{ store.status === "ACTIVE" ? "En Ligne" : "Configuration" }}
+        </span>
+      </div>
+      <p class="store-domain">
+        <span class="label">Identifiant:</span> {{ store.domain }}
+      </p>
+      <p class="store-description" *ngIf="store.description">
+        {{ store.description }}
+      </p>
+      <div class="store-actions">
+        <button (click)="selectStore(store)" class="btn btn-secondary">
+          <span class="icon">⚙️</span> Administrer
+        </button>
+        <button (click)="editStore(store)" class="btn btn-primary">
+          <span class="icon">✏️</span> Modifier
+        </button>
+        <button (click)="deleteStore(store)" class="btn btn-danger">
+          <span class="icon">🗑️</span> Supprimer
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="stores.length === 0" class="empty-state">
+      <div class="empty-icon">🏪</div>
+      <h4>Aucune boutique</h4>
+      <p>Créez votre première boutique pour commencer</p>
+    </div>
+  </section>
+</div>
